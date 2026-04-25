@@ -38,8 +38,9 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
         $this->setSelectAllCheckbox('chb_defaults');
         $this->setFormName('formDefaults');
-        $this->addMultiCommand('deleteDefaults', $this->lng->txt('delete'));
         $this->addMultiCommand('applyDefaults', $this->lng->txt('apply_def_settings_to_tst'));
+        $this->addMultiCommand('deleteDefaults', $this->lng->txt('delete'));
+        
         $this->initColumns();
     }
 

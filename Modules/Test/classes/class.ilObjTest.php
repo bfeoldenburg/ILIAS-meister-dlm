@@ -6118,15 +6118,27 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function getAvailableDefaults(): array
     {
+        $spid = 999999;
         $result = $this->db->queryF(
-            "SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
+            "SELECT * FROM tst_test_defaults WHERE user_fi = %s AND test_defaults_id > 999990 ORDER BY name ASC",
             ['integer'],
-            [$this->user->getId()]
+            [$spid]
         );
         $defaults = [];
         while ($row = $this->db->fetchAssoc($result)) {
             $defaults[$row["test_defaults_id"]] = $row;
         }
+
+        $result = $this->db->queryF(
+            "SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
+            ['integer'],
+            [$this->user->getId()]
+        );
+        
+        while ($row = $this->db->fetchAssoc($result)) {
+            $defaults[$row["test_defaults_id"]] = $row;
+        }
+
         return $defaults;
     }
 
@@ -6147,11 +6159,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function deleteDefaults($test_default_id)
     {
-        $this->db->manipulateF(
-            "DELETE FROM tst_test_defaults WHERE test_defaults_id = %s",
-            ['integer'],
-            [$test_default_id]
-        );
+        if ($test_default_id < 999991) {
+            $this->db->manipulateF(
+                "DELETE FROM tst_test_defaults WHERE test_defaults_id = %s",
+                ['integer'],
+                [$test_default_id]
+            );
+        } else {
+            //$this->ilias->raiseError("Dieser Eintrag kann nicht gelöscht werden", $this->ilias->error_obj->MESSAGE);
+        }
     }
 
     /**
